@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FelixBux - Регистрация</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: linear-gradient(135deg, #001f3f, #0066cc); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .register-box { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 40px; padding: 40px; width: 100%; max-width: 400px; color: white; }
+        h2 { text-align: center; color: #66ccff; margin-bottom: 10px; font-size: 28px; }
+        .subtitle { text-align: center; opacity: 0.8; margin-bottom: 30px; font-size: 14px; }
+        input { width: 100%; padding: 15px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 30px; color: white; font-size: 16px; margin-bottom: 20px; }
+        input:focus { outline: none; border-color: #66ccff; }
+        button { width: 100%; padding: 15px; background: linear-gradient(135deg, #0066cc, #66ccff); border: none; border-radius: 30px; color: white; font-size: 18px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102,204,255,0.3); }
+        .msg { text-align: center; margin-top: 20px; color: #ffaa00; font-size: 14px; }
+        .links { text-align: center; margin-top: 20px; }
+        .links a { color: #66ccff; text-decoration: none; font-size: 14px; }
+        .links a:hover { text-decoration: underline; }
+        .status-badge { background: rgba(255,255,255,0.1); padding: 8px; border-radius: 20px; font-size: 12px; text-align: center; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="register-box">
+        <h2>📝 Регистрация</h2>
+        <p class="subtitle">Создай аккаунт для доступа к FelixBux</p>
+        
+        <div class="status-badge" id="statusBadge">
+            ⏳ Ожидание подтверждения
+        </div>
+
+        <input type="text" id="username" placeholder="Твой ник в Roblox">
+        <input type="password" id="password" placeholder="Придумай пароль">
+        <input type="password" id="confirmPassword" placeholder="Повтори пароль">
+        
+        <button onclick="register()">Зарегистрироваться</button>
+        
+        <div class="msg" id="msg"></div>
+        
+        <div class="links">
+            <a href="check-status.html">Проверить статус заявки →</a>
+        </div>
+    </div>
+
+    <script src="register.js"></script>
+</body>
+</html>
