@@ -1,9 +1,8 @@
-// Логин и пароль для админки регистраций
+// Логин и пароль
 const ADMIN_LOGIN = 'Felix';
 const ADMIN_PASSWORD = 'Felix2013FelixBux';
 
-// Загружаем заявки
-let applications = JSON.parse(localStorage.getItem('applications') || '[]');
+let applications = [];
 
 // Проверка логина
 function login() {
@@ -13,17 +12,21 @@ function login() {
     if (user === ADMIN_LOGIN && pass === ADMIN_PASSWORD) {
         document.getElementById('loginForm').style.display = 'none';
         document.getElementById('adminPanel').style.display = 'block';
-        sessionStorage.setItem('regAdmin', 'ok');
+        sessionStorage.setItem('regAdmin', 'true');
         loadApplications();
+    } else {
+        document.getElementById('loginError').style.display = 'block';
     }
 }
 
 // Проверка сессии
-if (sessionStorage.getItem('regAdmin') === 'ok') {
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('adminPanel').style.display = 'block';
-    loadApplications();
-}
+window.onload = function() {
+    if (sessionStorage.getItem('regAdmin') === 'true') {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+        loadApplications();
+    }
+};
 
 // Загрузить заявки
 function loadApplications() {
@@ -39,25 +42,21 @@ function updateStats() {
     document.getElementById('approvedApps').innerText = applications.filter(a => a.status === 'approved').length;
 }
 
-// Подтвердить заявку
+// Подтвердить
 function approveApplication(id) {
     applications = applications.map(a => {
-        if (a.id === id) {
-            a.status = 'approved';
-        }
+        if (a.id === id) a.status = 'approved';
         return a;
     });
     localStorage.setItem('applications', JSON.stringify(applications));
     loadApplications();
 }
 
-// Отклонить заявку
+// Отклонить
 function rejectApplication(id) {
     if (confirm('Отклонить заявку?')) {
         applications = applications.map(a => {
-            if (a.id === id) {
-                a.status = 'rejected';
-            }
+            if (a.id === id) a.status = 'rejected';
             return a;
         });
         localStorage.setItem('applications', JSON.stringify(applications));
@@ -65,7 +64,7 @@ function rejectApplication(id) {
     }
 }
 
-// Удалить заявку
+// Удалить
 function deleteApplication(id) {
     if (confirm('Удалить заявку навсегда?')) {
         applications = applications.filter(a => a.id !== id);
@@ -74,7 +73,7 @@ function deleteApplication(id) {
     }
 }
 
-// Показать заявки
+// Показать таблицу
 function renderApplications() {
     const tbody = document.getElementById('appsTable');
 
@@ -104,7 +103,7 @@ function renderApplications() {
                     ${a.status === 'pending' 
                         ? `<button class="action-btn approve-btn" onclick="approveApplication(${a.id})">✓ Подтвердить</button>
                            <button class="action-btn reject-btn" onclick="rejectApplication(${a.id})">✗ Отклонить</button>`
-                        : `<button class="action-btn reject-btn" onclick="deleteApplication(${a.id})">🗑 Удалить</button>`
+                        : `<button class="action-btn delete-btn" onclick="deleteApplication(${a.id})">🗑 Удалить</button>`
                     }
                 </td>
             </tr>
@@ -112,9 +111,9 @@ function renderApplications() {
     }).join('');
 }
 
-// Обновление каждые 3 секунды
+// Обновление каждые 2 секунды
 setInterval(() => {
-    if (sessionStorage.getItem('regAdmin') === 'ok') {
+    if (sessionStorage.getItem('regAdmin') === 'true') {
         loadApplications();
     }
-}, 3000);
+}, 2000);
