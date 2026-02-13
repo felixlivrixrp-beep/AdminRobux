@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Статус заявки - FelixBux</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: linear-gradient(135deg, #001f3f, #0066cc); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background: linear-gradient(135deg, #0a1a2f, #1a3b5c); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .check-box { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 40px; padding: 40px; width: 100%; max-width: 400px; color: white; }
-        h2 { text-align: center; color: #66ccff; margin-bottom: 30px; }
+        h2 { text-align: center; color: #66ccff; margin-bottom: 30px; font-size: 28px; }
         input { width: 100%; padding: 15px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 30px; color: white; font-size: 16px; margin-bottom: 20px; }
         button { width: 100%; padding: 15px; background: linear-gradient(135deg, #0066cc, #66ccff); border: none; border-radius: 30px; color: white; font-size: 18px; font-weight: 600; cursor: pointer; }
         .result { margin-top: 20px; padding: 20px; border-radius: 20px; text-align: center; display: none; }
@@ -19,13 +19,13 @@
 <body>
     <div class="check-box">
         <h2>🔍 Проверка статуса</h2>
-        <input type="text" id="checkUsername" placeholder="Введи свой ник">
+        <input type="text" id="checkUsername" placeholder="Твой ник в Roblox">
         <button onclick="checkStatus()">Проверить</button>
         
         <div class="result" id="result"></div>
         
         <div class="links">
-            <a href="register.html">← Назад к регистрации</a>
+            <a href="register.html">← Регистрация</a>
         </div>
     </div>
 
@@ -47,16 +47,16 @@
             result.style.display = 'block';
 
             if (!app) {
-                result.innerHTML = '❌ Заявка не найдена. <a href="register.html">Зарегистрироваться</a>';
+                result.innerHTML = '❌ Заявка не найдена. <a href="register.html" style="color:#66ccff;">Зарегистрироваться</a>';
                 result.style.background = 'rgba(255,0,0,0.2)';
             } else if (app.status === 'pending') {
-                result.innerHTML = '⏳ Твоя заявка ожидает подтверждения';
+                result.innerHTML = '⏳ Заявка ожидает подтверждения';
                 result.style.background = 'rgba(255,165,0,0.2)';
             } else if (app.status === 'approved') {
-                result.innerHTML = '✅ Твоя заявка подтверждена!';
+                result.innerHTML = '✅ Заявка подтверждена!';
                 result.style.background = 'rgba(0,255,0,0.2)';
             } else if (app.status === 'rejected') {
-                result.innerHTML = '❌ Заявка отклонена. <a href="register.html">Попробуй снова</a>';
+                result.innerHTML = '❌ Заявка отклонена';
                 result.style.background = 'rgba(255,0,0,0.2)';
             }
         }
