@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FelixBux - Подтверждение регистраций</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: linear-gradient(135deg, #001f3f, #0066cc); min-height: 100vh; padding: 20px; color: white; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; padding: 15px 25px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: 700; color: #66ccff; }
+        .badge { background: linear-gradient(135deg, #0066cc, #66ccff); padding: 4px 8px; border-radius: 20px; font-size: 12px; }
+        .login-box { max-width: 400px; margin: 100px auto; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 40px; padding: 40px; text-align: center; }
+        .login-title { font-size: 28px; color: #66ccff; margin-bottom: 30px; }
+        .login-input { width: 100%; padding: 15px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 30px; color: white; font-size: 16px; margin-bottom: 20px; }
+        .login-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #0066cc, #66ccff); border: none; border-radius: 30px; color: white; font-size: 18px; font-weight: 600; cursor: pointer; }
+        .admin-panel { display: none; }
+        .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; padding: 25px; text-align: center; }
+        .stat-value { font-size: 42px; font-weight: 700; color: #66ccff; }
+        .applications { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 40px; padding: 30px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px; color: #66ccff; border-bottom: 2px solid rgba(255,255,255,0.1); }
+        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .status-pending { background: rgba(255,165,0,0.2); color: orange; padding: 5px 12px; border-radius: 20px; }
+        .status-approved { background: rgba(0,255,0,0.2); color: #00ff00; padding: 5px 12px; border-radius: 20px; }
+        .status-rejected { background: rgba(255,0,0,0.2); color: #ff4444; padding: 5px 12px; border-radius: 20px; }
+        .action-btn { padding: 8px 15px; border: none; border-radius: 20px; cursor: pointer; margin: 0 5px; }
+        .approve-btn { background: #00ff00; color: #001f3f; }
+        .reject-btn { background: #ff4444; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">FelixBux Admin <span class="badge">REG</span></div>
+            <a href="register.html" style="color: white; text-decoration: none;">← На регистрацию</a>
+        </div>
+
+        <!-- Форма входа -->
+        <div id="loginForm" class="login-box">
+            <h2 class="login-title">🔐 Вход в админ-панель</h2>
+            <input type="text" id="loginUsername" class="login-input" placeholder="Логин">
+            <input type="password" id="loginPassword" class="login-input" placeholder="Пароль">
+            <button class="login-btn" onclick="login()">Войти</button>
+        </div>
+
+        <!-- Админ панель -->
+        <div id="adminPanel" class="admin-panel">
+            <!-- Статистика -->
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalApps">0</div>
+                    <div>Всего заявок</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="pendingApps">0</div>
+                    <div>Ожидают</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="approvedApps">0</div>
+                    <div>Подтверждено</div>
+                </div>
+            </div>
+
+            <!-- Таблица заявок -->
+            <div class="applications">
+                <h2 style="margin-bottom: 20px;">📋 Заявки на регистрацию</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ник</th>
+                            <th>Время</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appsTable">
+                        <tr><td colspan="4" style="text-align: center; padding: 40px;">Загрузка...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-register.js"></script>
+</body>
+</html>
