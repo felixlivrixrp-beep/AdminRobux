@@ -2,13 +2,13 @@
 let applications = JSON.parse(localStorage.getItem('applications') || '[]');
 
 // Проверка статуса при загрузке
-document.addEventListener('DOMContentLoaded', function() {
+window.onload = function() {
     const savedUser = sessionStorage.getItem('pendingUser');
     if (savedUser) {
         document.getElementById('username').value = savedUser;
         checkStatus(savedUser);
     }
-});
+};
 
 function register() {
     const username = document.getElementById('username').value.trim();
@@ -18,17 +18,17 @@ function register() {
 
     // Проверки
     if (!username || !password || !confirm) {
-        msg.innerText = '❌ Заполни все поля!';
+        showMessage('❌ Заполни все поля!', 'error');
         return;
     }
 
     if (password !== confirm) {
-        msg.innerText = '❌ Пароли не совпадают!';
+        showMessage('❌ Пароли не совпадают!', 'error');
         return;
     }
 
     if (password.length < 6) {
-        msg.innerText = '❌ Пароль должен быть минимум 6 символов';
+        showMessage('❌ Пароль минимум 6 символов', 'error');
         return;
     }
 
@@ -36,12 +36,12 @@ function register() {
     const existing = applications.find(a => a.username === username);
     if (existing) {
         if (existing.status === 'pending') {
-            msg.innerText = '⏳ Твоя заявка уже ожидает подтверждения!';
+            showMessage('⏳ Заявка уже ожидает подтверждения!', 'warning');
             sessionStorage.setItem('pendingUser', username);
             updateStatusBadge('pending');
             return;
         } else if (existing.status === 'approved') {
-            msg.innerText = '✅ Ты уже зарегистрирован! Можешь войти.';
+            showMessage('✅ Ты уже зарегистрирован!', 'success');
             return;
         }
     }
@@ -52,20 +52,17 @@ function register() {
         username: username,
         password: password,
         time: new Date().toLocaleString(),
-        status: 'pending' // pending, approved, rejected
+        status: 'pending'
     };
 
     applications.push(application);
     localStorage.setItem('applications', JSON.stringify(applications));
-
-    // Сохраняем в сессию
     sessionStorage.setItem('pendingUser', username);
 
-    // Показываем сообщение
-    msg.innerHTML = '✅ Заявка отправлена! Жди подтверждения от админа.';
+    showMessage('✅ Заявка отправлена! Жди подтверждения.', 'success');
     updateStatusBadge('pending');
 
-    // Очищаем поля (кроме ника)
+    // Очищаем поля паролей
     document.getElementById('password').value = '';
     document.getElementById('confirmPassword').value = '';
 }
@@ -75,9 +72,9 @@ function checkStatus(username) {
     if (app) {
         updateStatusBadge(app.status);
         if (app.status === 'approved') {
-            document.getElementById('msg').innerHTML = '✅ Твой аккаунт подтвержден! <a href="login.html">Войти</a>';
+            showMessage('✅ Аккаунт подтвержден!', 'success');
         } else if (app.status === 'rejected') {
-            document.getElementById('msg').innerHTML = '❌ Заявка отклонена. Попробуй снова.';
+            showMessage('❌ Заявка отклонена', 'error');
         }
     }
 }
@@ -85,7 +82,7 @@ function checkStatus(username) {
 function updateStatusBadge(status) {
     const badge = document.getElementById('statusBadge');
     if (status === 'pending') {
-        badge.innerHTML = '⏳ Статус: Ожидание подтверждения';
+        badge.innerHTML = '⏳ Статус: Ожидает подтверждения';
         badge.style.background = 'rgba(255,165,0,0.2)';
         badge.style.color = 'orange';
     } else if (status === 'approved') {
@@ -96,5 +93,24 @@ function updateStatusBadge(status) {
         badge.innerHTML = '❌ Статус: Отклонен';
         badge.style.background = 'rgba(255,0,0,0.2)';
         badge.style.color = '#ff4444';
+    } else {
+        badge.innerHTML = '⏳ Статус: не подана';
+        badge.style.background = 'rgba(255,255,255,0.05)';
+        badge.style.color = 'white';
+    }
+}
+
+function showMessage(text, type) {
+    const msg = document.getElementById('msg');
+    msg.innerHTML = text;
+    if (type === 'error') {
+        msg.style.background = 'rgba(255,0,0,0.2)';
+        msg.style.color = '#ff4444';
+    } else if (type === 'success') {
+        msg.style.background = 'rgba(0,255,0,0.2)';
+        msg.style.color = '#00ff00';
+    } else {
+        msg.style.background = 'rgba(255,165,0,0.2)';
+        msg.style.color = 'orange';
     }
 }
